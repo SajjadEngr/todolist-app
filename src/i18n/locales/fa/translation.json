@@ -1,0 +1,16 @@
+{
+    "welcome": "به ToDo App خوش آمدید",
+    "desc_Part1": "بیا کاراتو ردیف کن و از زندگیت لذت ببر 😎✌️",
+    "desc_Part2": "اینجا می‌تونی همه کاراتو مدیریت کنی و هیچ وقت چیزی رو فراموش نکنی!",
+    "btn_login": "ورود",
+    "btn_register": "شروع‌کنید",
+    "register_display": "ثبت‌نام",
+    "name_label": "نام",
+    "email_label": "ایمیل",
+    "password_label": "رمزعبور",
+    "already_register_text": "قبلا ثبت‌نام کرده‌اید؟",
+    "already_register_link": "ورود",
+    "login_display": "ورود",
+    "already_login_text": "هنوز ثبت‌نام نکرده‌اید؟",
+    "already_login_link": "شروع‌کنید"
+}

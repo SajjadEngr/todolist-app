@@ -1,0 +1,16 @@
+{
+    "welcome": "Welcome to ToDo App",
+    "desc_Part1": "Manage your tasks and enjoy your life.",
+    "desc_Part2": "Here, you can manage all your tasks and never forget anything! 😎✌️",
+    "btn_login": "Login",
+    "btn_register": "Get Started",
+    "register_display": "Register",
+    "name_label": "name",
+    "email_label": "email",
+    "password_label": "password",
+    "already_register_text": "Already have an account?",
+    "already_register_link": "Login",
+    "login_display": "Login",
+    "already_login_text": "Don't have an account?",
+    "already_login_link": "Get Started"
+}
