@@ -5,12 +5,16 @@
     "btn_login": "Login",
     "btn_register": "Get Started",
     "register_display": "Register",
-    "name_label": "name",
     "email_label": "email",
     "password_label": "password",
     "already_register_text": "Already have an account?",
     "already_register_link": "Login",
     "login_display": "Login",
     "already_login_text": "Don't have an account?",
-    "already_login_link": "Get Started"
+    "already_login_link": "Get Started",
+    "register_success_alert": "Registration successful",
+    "register_failed_alert": "Registration failed",
+    "email_format_error": "Invalid email format",
+    "password_format_error": "Password must be at least 6 characters",
+    "register_error_already_alert": "This email is already registered"
 }

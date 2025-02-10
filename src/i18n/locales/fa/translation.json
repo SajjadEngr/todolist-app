@@ -5,12 +5,16 @@
     "btn_login": "ورود",
     "btn_register": "شروع‌کنید",
     "register_display": "ثبت‌نام",
-    "name_label": "نام",
     "email_label": "ایمیل",
     "password_label": "رمزعبور",
     "already_register_text": "قبلا ثبت‌نام کرده‌اید؟",
     "already_register_link": "ورود",
     "login_display": "ورود",
     "already_login_text": "هنوز ثبت‌نام نکرده‌اید؟",
-    "already_login_link": "شروع‌کنید"
+    "already_login_link": "شروع‌کنید",
+    "register_success_alert": "ثبت‌نام با موفقیت انجام شد",
+    "register_failed_alert": "ثبت‌نام ناموفق بود",
+    "email_format_error": "فرمت ایمیل نامعتبر است",
+    "password_format_error": "رمزعبور باید حداقل ۶ کاراکتر باشد",
+    "register_error_already_alert": "این ایمیل از قبل ثبتا‌نام کرده است"
 }

@@ -1,22 +1,79 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Auth from "../layouts/AuthLayout";
 import { Link } from "react-router-dom";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
+import { supabase } from "../supabaseClient"; // اضافه کردن Supabase client
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useAtom } from "jotai";
+import { userIdAtom } from "../store";
 
 const Register: React.FC = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [userId, setUserId] = useAtom<string | null>(userIdAtom);
+  const navigate = useNavigate();
 
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === "fa";
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (userId) {
+      navigate("/"); // هدایت به صفحه اصلی
+    }
+  }, [userId, navigate]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [id]: value }));
+  };
+
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  const validatePassword = (password: string) => {
+    const re = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+    return re.test(String(password));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log({ name, email, password });
+
+    if (!validateEmail(formData.email)) {
+      toast.error(t("email_format_error"));
+      return;
+    }
+
+    if (!validatePassword(formData.password)) {
+      toast.error(t("password_format_error"));
+      return;
+    }
+
+    setLoading(true);
+
+    const { email, password } = formData;
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+    const { user } = data;
+
+    if (error) {
+      toast.error(t("register_error_alert"));
+      console.log(error.message);
+    } else if (user && user.identities && user.identities.length) {
+      toast.error("register_error_already_alert");
+    } else {
+      setUserId(user?.id || null);
+      toast.success(t("register_success_alert"));
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -28,23 +85,6 @@ const Register: React.FC = () => {
         <form onSubmit={handleSubmit} className="space-y-6 font-[Vazirmatn]">
           <div>
             <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-              style={{ direction: isRTL ? "rtl" : "ltr" }}
-            >
-              {t("name_label")}
-            </label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-              required
-            />
-          </div>
-          <div>
-            <label
               htmlFor="email"
               className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               style={{ direction: isRTL ? "rtl" : "ltr" }}
@@ -54,8 +94,8 @@ const Register: React.FC = () => {
             <input
               type="email"
               id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={handleChange}
               className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
               required
             />
@@ -72,8 +112,8 @@ const Register: React.FC = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={formData.password}
+                onChange={handleChange}
                 className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                 required
               />
@@ -89,10 +129,19 @@ const Register: React.FC = () => {
           <button
             type="submit"
             className="w-full font-[Lalezar] px-4 py-2 font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600"
+            disabled={loading}
           >
-            {t("register_display")}
+            {loading ? (
+              <div className="flex items-center justify-center">
+                <FaSpinner className="animate-spin mr-2" />
+                {t("register_display")}
+              </div>
+            ) : (
+              t("register_display")
+            )}
           </button>
         </form>
+        <ToastContainer className={"font-[Vazirmatn] font-bold"} />
         <p
           className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400 font-bold"
           style={{ direction: isRTL ? "rtl" : "ltr" }}
