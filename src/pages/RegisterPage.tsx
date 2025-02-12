@@ -1,30 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+
 import Auth from "../layouts/AuthLayout";
-import { Link } from "react-router-dom";
 import { FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
-import { supabase } from "../supabaseClient"; // اضافه کردن Supabase client
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useAtom } from "jotai";
-import { userIdAtom } from "../store";
 
-const Register: React.FC = () => {
+const AuthPage: React.FC = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [userId, setUserId] = useAtom<string | null>(userIdAtom);
-  const navigate = useNavigate();
+  const [isRegister, setIsRegister] = useState(true);
 
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === "fa";
-
-  useEffect(() => {
-    if (userId) {
-      navigate("/"); // هدایت به صفحه اصلی
-    }
-  }, [userId, navigate]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -56,22 +45,7 @@ const Register: React.FC = () => {
 
     setLoading(true);
 
-    const { email, password } = formData;
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-    const { user } = data;
-
-    if (error) {
-      toast.error(t("register_error_alert"));
-      console.log(error.message);
-    } else if (user && user.identities && user.identities.length) {
-      toast.error("register_error_already_alert");
-    } else {
-      setUserId(user?.id || null);
-      toast.success(t("register_success_alert"));
-    }
+    toast.success(t("login_success_alert"));
 
     setLoading(false);
   };
@@ -134,10 +108,12 @@ const Register: React.FC = () => {
             {loading ? (
               <div className="flex items-center justify-center">
                 <FaSpinner className="animate-spin mr-2" />
-                {t("register_display")}
+                {isRegister ? t("register_display") : t("login_display")}
               </div>
-            ) : (
+            ) : isRegister ? (
               t("register_display")
+            ) : (
+              t("login_display")
             )}
           </button>
         </form>
@@ -146,17 +122,17 @@ const Register: React.FC = () => {
           className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400 font-bold"
           style={{ direction: isRTL ? "rtl" : "ltr" }}
         >
-          {t("already_register_text")} {""}
-          <Link
-            to="/auth/login"
+          {isRegister ? t("already_register_text") : t("no_account_text")} {""}
+          <button
+            onClick={() => setIsRegister(!isRegister)}
             className="text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
           >
             {t("already_register_link")}
-          </Link>
+          </button>
         </p>
       </Auth>
     </>
   );
 };
 
-export default Register;
+export default AuthPage;

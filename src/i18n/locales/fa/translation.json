@@ -16,5 +16,6 @@
     "register_failed_alert": "ثبت‌نام ناموفق بود",
     "email_format_error": "فرمت ایمیل نامعتبر است",
     "password_format_error": "رمزعبور باید حداقل ۶ کاراکتر باشد",
-    "register_error_already_alert": "این ایمیل از قبل ثبتا‌نام کرده است"
+    "register_error_already_alert": "این ایمیل از قبل ثبتا‌نام کرده است",
+    "login_success_alert": "ورود با موفقیت انجام شد"
 }

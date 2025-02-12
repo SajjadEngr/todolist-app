@@ -17,6 +17,9 @@ importers:
       '@types/i18next':
         specifier: ^13.0.0
         version: 13.0.0(typescript@5.6.3)
+      appwrite:
+        specifier: ^17.0.0
+        version: 17.0.0
       i18next:
         specifier: ^24.2.2
         version: 24.2.2(typescript@5.6.3)
@@ -921,6 +924,9 @@ packages:
   ansi-styles@4.3.0:
     resolution: {integrity: sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJQSEg==}
     engines: {node: '>=8'}
+
+  appwrite@17.0.0:
+    resolution: {integrity: sha512-R5+jMh6dVsKC5BdcO9G3wQPxqlU048zxj/Hahq2SU86XIxb0jWThQqS7MtyLUg7tz27SrwO2JvpwUrT9SOStDA==}
 
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
@@ -2475,6 +2481,8 @@ snapshots:
   ansi-styles@4.3.0:
     dependencies:
       color-convert: 2.0.1
+
+  appwrite@17.0.0: {}
 
   argparse@2.0.1: {}
 
